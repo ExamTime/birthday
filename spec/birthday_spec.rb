@@ -63,6 +63,7 @@ describe Person do
   before :each do
     @p1 = Person.create(:name => "Twilight Sparkle", :birthday => Date.parse('2006-09-09')).reload
     @p2 = Person.create(:name => "Rainbow Dash",     :birthday => Date.parse('2004-08-08')).reload
+    @p3 = Person.create(:name => "Jimmy Saville",    :birthday => Date.parse('1926-08-13')).reload
   end
 
   after :each do
@@ -99,11 +100,13 @@ describe Person do
     birthdays = Person.find_birthdays_for(Date.parse('2011-08-01'), Date.parse('2011-12-12'))
     birthdays.should include(@p1)
     birthdays.should include(@p2)
+    birthdays.should include(@p3)
   end
 
   it 'finds people\'s by birthday dates with years overlapping' do
     birthdays = Person.find_birthdays_for(Date.parse('2011-09-01'), Date.parse('2012-08-12'))
     birthdays.should include(@p1)
     birthdays.should include(@p2)
+    birthdays.should_not include(@p3)
   end
 end
